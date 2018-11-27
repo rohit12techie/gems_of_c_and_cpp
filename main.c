@@ -4,7 +4,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
-#define SHELL_NAME "rhell:~$"
+#define SHELL_NAME "rshell:~$"
 
 const char *rshellcmd[4] = {"help", "exit", "about", "version"};
 
@@ -78,14 +78,10 @@ int main()
 		}
 
 		char *tok = strtok(str," ");
-		if(tok != NULL){
+		while(NULL != tok){
 			strlist[i++] = tok;
+			tok = strtok(NULL," ");
 		}
-		tok = strtok(NULL," ");
-		if(tok != NULL){
-			strlist[i++] = tok;
-		}
-
 		strlist[i]=NULL;
 	
 		pid_t pid = fork();
