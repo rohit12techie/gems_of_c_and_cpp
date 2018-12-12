@@ -6,7 +6,7 @@
 
 #define SHELL_NAME "rshell:~$"
 
-const char *rshellcmd[4] = {"help", "exit", "about", "version"};
+const char *rshellcmd[5] = {"help", "exit", "about", "version", "cd"};
 
 /*Help function*/
 void printhelp()
@@ -16,7 +16,7 @@ void printhelp()
 	printf("\thelp- \n\tabout-\n\tversion-\n\texit-\n");
 }
 
-/*Existing the rhsell*/
+/*Exiting the rhsell*/
 void exitrshell()
 {
 	printf("exiting rshell\n");
@@ -37,22 +37,49 @@ void versionrshell()
 	printf("rshell version 1.0\n");
 }
 
+void changedirectory(char *cmd){
+	char *path = NULL;
+	char *tok = strtok(cmd, " ");
+	if(tok != NULL){
+		path = strtok(NULL, " ");
+	}
+
+	if(path != NULL){
+		int ret = chdir(path);
+		if(ret != 0){
+			printf("rshell: cd: %s: No such file or directory\n",path);
+		}
+	}
+}
+
 /*Handling internal command to rshell like "help, about, version, exit"*/
 int handleinternal(char *cmd)
 {
-	for(int i=0; i<4; i++){
-		if(strcmp(cmd,rshellcmd[i]) == 0){
+	for(int i=0; i<5; i++){
+		if(strncmp(cmd, rshellcmd[i], strlen(rshellcmd[i])) == 0){
 			switch(i){
 				case 0: printhelp(); break;
 				case 1: exitrshell(); break;
 				case 2: aboutrshell(); break;
 				case 3: versionrshell();break;
+				case 4: changedirectory(cmd);break;
 			}
 			return 1;
 		}
 	}
 
 	return 0;
+}
+
+void initshell()
+{
+	char *user = getenv("USER");
+	if(user != NULL){
+		printf("%s@%s",user,SHELL_NAME);
+	}
+	else{
+		printf(SHELL_NAME);
+	}
 }
 
 int main()
@@ -64,7 +91,7 @@ int main()
 	printf("#########################################################################\n");
 	
 	while(1){
-		printf(SHELL_NAME);
+		initshell();
 		char *str = NULL;
 		size_t size = 0;
 		int i =0;
@@ -87,8 +114,9 @@ int main()
 		pid_t pid = fork();
 		if(pid >= 0){
 			if(pid == 0){
-				if (execvp(strlist[0],strlist) < 0) {
-					printf("\n%s: command not found\n",strlist[0]);
+				int ret = execvp(strlist[0],strlist);
+				if (ret < 0) {
+					printf("\n%s: command not found [%d]\n",strlist[0],ret);
 				}
 				exit(0);
 			}	
