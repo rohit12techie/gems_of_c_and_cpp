@@ -13,7 +13,7 @@ void printhelp()
 {
 	printf("rshell version 1.0\n");
 	printf("these are the few internal commands for rshell\n\n");
-	printf("\thelp- \n\tabout-\n\tversion-\n\texit-\n");
+	printf("\thelp- \n\tabout-\n\tversion-\n\tcd-\n\texit-\n");
 }
 
 /*Exiting the rhsell*/
@@ -67,15 +67,17 @@ int handleinternal(char *cmd)
 			return 1;
 		}
 	}
-
 	return 0;
 }
 
 void initshell()
 {
+	#define ANSI_COLOR_GREEN   "\x1b[1;32m"
+	#define ANSI_COLOR_RESET   "\x1b[0m"
 	char *user = getenv("USER");
+	
 	if(user != NULL){
-		printf("%s@%s",user,SHELL_NAME);
+		printf(ANSI_COLOR_GREEN "%s@%s" ANSI_COLOR_RESET ,user,SHELL_NAME);
 	}
 	else{
 		printf(SHELL_NAME);
@@ -96,7 +98,7 @@ int main()
 		size_t size = 0;
 		int i =0;
 		char *strlist[4];
-		
+	
 		int len = getline(&str, &size, stdin);
 		str[len-1]='\0';
 	
