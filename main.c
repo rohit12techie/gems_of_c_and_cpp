@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <string.h>
+#include <stdio.h>   //
+#include <stdlib.h>  //
+#include <unistd.h>  // Including header files
+#include <sys/wait.h>//
+#include <string.h>  //
 
 #define SHELL_NAME "rshell:~$"
 
@@ -88,7 +88,7 @@ int main()
 {
 	printf("#########################################################################\n");
 	printf("##                                                                     ##\n");
-	printf("##                        Welcome to rshell                            ##\n");
+	printf("##              *  Welcome to rshell! Your own C shell *               ##\n");
 	printf("##                                                                     ##\n");
 	printf("#########################################################################\n");
 	
