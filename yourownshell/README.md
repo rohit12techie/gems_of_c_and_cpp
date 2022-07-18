@@ -1,4 +1,3 @@
-https://rohit12techie.github.io/yourownshell/
 # yourownshell
 
 In Linux, we all know bash shell, it's an interpreter which accepts the system commands and gives the result as output or error. What if you want to create your own shell and your own commands to run on that shell.
